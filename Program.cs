@@ -1,4 +1,5 @@
-﻿Cousing System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
 using System.Drawing;
 using System.Text;
@@ -91,6 +92,7 @@ public class Program
                         string title;
                         Day = 1;
                         trained = 0;
+                        //control d'errors del nom
                         try
                         {
                             Console.WriteLine(NameMessage);
@@ -117,6 +119,7 @@ public class Program
                             Console.WriteLine(NameErrorMessage);
                             validInput = false;
                         }
+                        //bucle del entrenament
                         while (Day <= 5)
                         {
                             long NumHours = rnd.NextInt64(1, 25);
@@ -128,6 +131,7 @@ public class Program
 
                             Day++;
                         }
+                        //Asignació del titol
                         if (trained < 20)
                         {
                             Console.WriteLine("You have to repeat the second call");
@@ -239,13 +243,15 @@ public class Program
                         int[] hp = { 3, 5, 10, 11, 18, 15, 20, 50 };
                         string realMonster = monsters[Spawn];
                         int realHp = hp[Spawn];
-
+                        //si arribes a nivell 5 no pots lluitar més
                         if (lvl < 5)
                         {
+                            //bucle que finalitza al arribar a 0 hp o menys
                             Console.WriteLine(SpawnMSG, realMonster);
                             while (realHp > 0)
                             {
                                 Console.WriteLine(HP_MSG, realMonster, realHp);
+                                // genera la tirada del dau
                                 int dice = rnd.Next(1, 7);
                                 if (dice == 1)
                                 {
@@ -309,7 +315,112 @@ public class Program
                         break;
 
                     case 3:
+                        const string WelcomeMine = "Welcome to the mine, you have 5 attempts for search bits";
+                        const string MSG_AxisX = "Insert the X axis (horizontal), must be a number between 0 and 4";
+                        const string MSG_AxisY = "Insert the Y axis (vertical), must be a number between 0 and 4";
+                        const string FoundNothing = "you mined at x:{0} y:{1} but you didn't find anything";
+                        const string FoundBits = "you mined at x:{0} y:{1} and you just found {2} bits and you have {3} bits in total";
+                        const string RangeMSG = "the number must be between 0 and 4";
 
+                        int axisX = 0;
+                        int axisY = 0;
+                        string[,] viewMAP = { { "➖", "➖", "➖", "➖", "➖" }, { "➖", "➖", "➖", "➖", "➖" }, { "➖", "➖", "➖", "➖", "➖" }, { "➖", "➖", "➖", "➖", "➖" }, { "➖", "➖", "➖", "➖", "➖" } };
+                        int[,] coinMAP = new int[5, 5];
+                        int coinChance = rnd.Next(0, 2);
+                        bool validatedX = false;
+                        bool validatedY = false;
+                        int bits = 0;
+
+                        //spawn de bits
+                        for (int i = 0; i < coinMAP.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < coinMAP.GetLength(1); j++)
+                            {
+                                int moneda = rnd.Next(0, 2);
+
+                                if (moneda == 1)
+                                {
+                                    coinMAP[i, j] = rnd.Next(5, 51);
+                                }
+                                else
+                                {
+                                    coinMAP[i, j] = 0;
+                                }
+                            }
+                        }
+                        Console.WriteLine(WelcomeMine);
+
+                        //intents
+                        for (int attempts = 0; attempts <= 5; attempts++)
+                        {
+                            for (int i = 0; i < viewMAP.GetLength(0); i++)
+                            {
+                                for (int j = 0; j < viewMAP.GetLength(1); j++)
+                                {
+                                    Console.Write(viewMAP[i, j]);
+                                }
+                                Console.WriteLine();
+                            }
+                            //control d'errors y selecció de cordenades
+                            validatedX = false;
+                            validatedY = false;
+                            while (!validatedX)
+                            {
+                                try
+                                {
+                                    Console.Write(MSG_AxisX + "\n");
+                                    axisX = Convert.ToInt32(Console.ReadLine());
+
+                                    if (axisX < 0 || axisX > 4)
+                                    {
+                                        Console.WriteLine(RangeMSG);
+                                    }
+                                    else
+                                    {
+                                        validatedX = true;
+                                    }
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("Error: you must enter a number");
+                                }
+                            }
+                            while (!validatedY)
+                            {
+                                try
+                                {
+                                    Console.Write(MSG_AxisY + "\n");
+                                    axisY = Convert.ToInt32(Console.ReadLine());
+
+                                    if (axisY < 0 || axisY > 4)
+                                    {
+                                        Console.WriteLine(RangeMSG);
+                                    }
+                                    else
+                                    {
+                                        validatedY = true;
+                                    }
+                                }
+                                catch (FormatException)
+                                {
+                                    Console.WriteLine("Error: you must enter a number");
+                                }
+                            }
+                            if (coinMAP[axisX, axisY] > 0)
+                            {
+                                bits = bits + coinMAP[axisX, axisY];
+                                Console.WriteLine(FoundBits, axisX, axisY, coinMAP[axisX, axisY], bits);
+                                viewMAP[axisX, axisY] = "💰";
+                                coinMAP[axisX, axisY] = 0;
+
+                            }
+                            else
+                            {
+                                Console.WriteLine(FoundNothing, axisX, axisY);
+                                viewMAP[axisX, axisY] = "❌";
+                            }
+                        }
+                        //comprobació de 
                         break;
                     case 4:
 
