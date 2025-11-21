@@ -167,7 +167,147 @@ public class Program
                         break;
                     //nivell 2 (increase lvl)
                     case 2:
+                        const string SpawnMSG = "A wild {0} appears! Rolling dice to deteminate the outcome of the battle";
+                        const string HP_MSG = "The {0} has {1} HP";
+                        const string DamageMSG = "the monster takes damage";
+                        const string RollAgain = "Press any key to roll again";
+                        const string LvlUp = "LVL UP! Your actual level is {0}";
+                        const string MaxLVL = "You are now at the max lvl (5), you can't kill more monsters";
+                        const string numDice1 = """
+    
+                           ________
+                          /       /|   
+                         /_______/ |
+                         |       | |
+                         |   o   | /
+                         |       |/ 
+                         '-------'
+                            
+                        """;
+                        const string numDice2 = """
+                           ________
+                          /       /|   
+                         /_______/ |
+                         |     o | |
+                         |       | /
+                         | o     |/ 
+                         '-------'
                         
+                        """;
+                        const string numDice3 = """
+                           ________
+                          /       /|   
+                         /_______/ |
+                         |     o | |
+                         |   o   | /
+                         | o     |/ 
+                         '-------'
+                         
+                        """;
+                        const string numDice4 = """
+                           ________
+                          /       /|   
+                         /_______/ |
+                         | o   o | |
+                         |       | /
+                         | o   o |/ 
+                         '-------'   
+                         
+                        """;
+                        const string numDice5 = """
+                           ________
+                          /       /|   
+                         /_______/ |
+                         | o   o | |
+                         |   o   | /
+                         | o   o |/ 
+                         '-------'   
+                         
+                        """;
+                        const string numDice6 = """
+                           ________
+                          /       /|   
+                         /_______/ |
+                         | o   o | |
+                         | o   o | /
+                         | o   o |/ 
+                         '-------'   
+                         
+                        """;
+                        int Spawn = rnd.Next(0, 8);
+                        string[] monsters = { "Wandering Skeleton 💀", "Forest Goblin 👹", "Green Slime 🟢", "Ember Wolf 🐺", "Giant Spider 🕷️", "Iron Golem 🤖", "Lost Necromancer 🧝‍♂️", "Ancient Dragon 🐉" };
+                        int[] hp = { 3, 5, 10, 11, 18, 15, 20, 50 };
+                        string realMonster = monsters[Spawn];
+                        int realHp = hp[Spawn];
+
+                        if (lvl < 5)
+                        {
+                            Console.WriteLine(SpawnMSG, realMonster);
+                            while (realHp > 0)
+                            {
+                                Console.WriteLine(HP_MSG, realMonster, realHp);
+                                int dice = rnd.Next(1, 7);
+                                if (dice == 1)
+                                {
+                                    Console.WriteLine(numDice1);
+                                    realHp = realHp - 1;
+                                    Console.WriteLine(DamageMSG);
+                                    Console.WriteLine(RollAgain);
+                                }
+                                else if (dice == 2)
+                                {
+                                    Console.WriteLine(numDice2);
+                                    realHp = realHp - 2;
+                                    Console.WriteLine(DamageMSG);
+                                    Console.WriteLine(RollAgain);
+                                }
+                                else if (dice == 3)
+                                {
+                                    Console.WriteLine(numDice3);
+                                    realHp = realHp - 3;
+                                    Console.WriteLine(DamageMSG);
+                                    Console.WriteLine(RollAgain);
+                                }
+                                else if (dice == 4)
+                                {
+                                    Console.WriteLine(numDice4);
+                                    realHp = realHp - 4;
+                                    Console.WriteLine(DamageMSG);
+                                    Console.WriteLine(RollAgain);
+                                }
+                                else if (dice == 5)
+                                {
+                                    Console.WriteLine(numDice5);
+                                    realHp = realHp - 5;
+                                    Console.WriteLine(DamageMSG);
+                                    Console.WriteLine(RollAgain);
+                                }
+                                else
+                                {
+                                    Console.WriteLine(numDice6);
+                                    realHp = realHp - 6;
+                                    Console.WriteLine(DamageMSG);
+                                    Console.WriteLine(RollAgain);
+                                }
+                                if (realHp == 0 || realHp < 0)
+                                {
+                                    Console.WriteLine();
+                                }
+                                Console.ReadKey();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine(MaxLVL);
+                        }
+
+                        if (lvl < 5)
+                        {
+                            lvl = lvl + 1;
+                            Console.WriteLine("\n" + LvlUp, lvl + "\n");
+                        }
+                        break;
+
                     case 3:
 
                         break;
