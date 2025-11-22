@@ -437,8 +437,23 @@ public class Program
                             }
                         }
                         break;
+                    //capitol 4
                     case 4:
-                        
+                        const string EmptyInv = "\nYour inventory is empty";
+                        const string Contains = "\nYour inventory contains:";
+
+                        if (inventory.Length == 0)
+                        {
+                            Console.WriteLine(EmptyInv);
+                        }
+                        else
+                        {
+                            Console.WriteLine(Contains);
+                            foreach (string item in inventory)
+                            {
+                                Console.WriteLine(" - " + item);
+                            }
+                        }
                         break;
                     case 5:
                         
