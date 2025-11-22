@@ -31,6 +31,8 @@ public class Program
         string? saveTitle = null;
         bool hasTrained = false;
         int lvl = 1;
+        int realBits = 0;
+        string[] inventory = new string[0];
         //menu y bucle del joc
         do
         {
@@ -312,8 +314,10 @@ public class Program
                             lvl = lvl + 1;
                             Console.WriteLine("\n" + LvlUp, lvl + "\n");
                         }
-                        break;
 
+
+                        break;
+                    //capi
                     case 3:
                         const string WelcomeMine = "Welcome to the mine, you have 5 attempts for search bits";
                         const string MSG_AxisX = "Insert the X axis (horizontal), must be a number between 0 and 4";
@@ -325,12 +329,13 @@ public class Program
                         int axisX = 0;
                         int axisY = 0;
                         string[,] viewMAP = { { "➖", "➖", "➖", "➖", "➖" }, { "➖", "➖", "➖", "➖", "➖" }, { "➖", "➖", "➖", "➖", "➖" }, { "➖", "➖", "➖", "➖", "➖" }, { "➖", "➖", "➖", "➖", "➖" } };
+                        int[] guideArray = {0,1, 2, 3, 4};
                         int[,] coinMAP = new int[5, 5];
                         int coinChance = rnd.Next(0, 2);
                         bool validatedX = false;
                         bool validatedY = false;
                         int bits = 0;
-
+                        int axisGuide = 0;
                         //spawn de bits
                         for (int i = 0; i < coinMAP.GetLength(0); i++)
                         {
@@ -353,11 +358,21 @@ public class Program
                         //intents
                         for (int attempts = 0; attempts <= 5; attempts++)
                         {
+                            for (int i = 0;i < guideArray.Length; i++)
+                            {
+                                Console.Write(" ");
+                                Console.Write(guideArray[i]);
+                            }
+                            Console.WriteLine();
+                            axisGuide = 0;
                             for (int i = 0; i < viewMAP.GetLength(0); i++)
                             {
+                                Console.Write(axisGuide);
+                                axisGuide++;
                                 for (int j = 0; j < viewMAP.GetLength(1); j++)
                                 {
                                     Console.Write(viewMAP[i, j]);
+
                                 }
                                 Console.WriteLine();
                             }
@@ -412,6 +427,7 @@ public class Program
                                 Console.WriteLine(FoundBits, axisX, axisY, coinMAP[axisX, axisY], bits);
                                 viewMAP[axisX, axisY] = "💰";
                                 coinMAP[axisX, axisY] = 0;
+                                realBits = bits;
 
                             }
                             else
@@ -420,13 +436,12 @@ public class Program
                                 viewMAP[axisX, axisY] = "❌";
                             }
                         }
-                        //comprobació de 
                         break;
                     case 4:
-
+                        
                         break;
                     case 5:
-
+                        
                         break;
                     case 6:
 
