@@ -25,7 +25,7 @@ public class Program
         const string InputErrorMessage = "Invalid input. Please enter a number between 0 and 7.";
         string nameMenu = "Welcome {0} with the title {1} and lvl {2}";
 
-        int op = 0;
+        int op = -1;
         bool validInput;
         Random rnd = new Random();
         string? saveName = null;
@@ -34,6 +34,9 @@ public class Program
         int lvl = 1;
         int realBits = 0;
         string[] inventory = new string[0];
+        bool decodedOne = false;
+        bool decodedTwo = false;
+        bool decodedThree = false;
         //menu y bucle del joc
         do
         {
@@ -52,21 +55,26 @@ public class Program
             Console.WriteLine(MenuOptionExit);
             Console.Write(MenuPrompt);
 
-            validInput = true;
-            try
+            validInput = false;
+            while (!validInput)
             {
-                op = Convert.ToInt32(Console.ReadLine());
+                try
+                {
+                    op = Convert.ToInt32(Console.ReadLine());
 
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine(InputErrorMessage);
-                validInput = false;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine(InputErrorMessage);
-                validInput = false;
+                    if (op < 0 || op > 7)
+                    {
+                        Console.WriteLine(InputErrorMessage);
+                    }
+                    else
+                    {
+                        validInput = true;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Error: you must enter a number");
+                }
             }
 
             if (validInput)
@@ -318,7 +326,7 @@ public class Program
 
 
                         break;
-                    //capi
+                    //capitol 3
                     case 3:
                         const string WelcomeMine = "Welcome to the mine, you have 5 attempts for search bits";
                         const string MSG_AxisX = "Insert the X axis (horizontal), must be a number between 0 and 4";
@@ -422,6 +430,7 @@ public class Program
                                     Console.WriteLine("Error: you must enter a number");
                                 }
                             }
+                            //verificació de les cordenades (si hi ha moneda o no)
                             if (coinMAP[axisX, axisY] > 0)
                             {
                                 bits = bits + coinMAP[axisX, axisY];
@@ -596,15 +605,116 @@ public class Program
                             }
                         }
                     break;
+                    //capitol 7
                     case 7:
-                      
-                    break;
+                        const string ScrollWelcome = "You found an ancient scroll with encrypted messages";
+                        const string DecodeScroll = "You must decode the following scroll:";
+                        const string DecodeOperation = "Choose a decoding operation:";
+                        const string DecodeRangeError = "must be a number between 1 and 3";
+                        const string CompletedDecode = "You decoded all parts of the scrolls!";
+                        const string FinalVowels = "There are: {0} magical runes (vowels)";
+                        const string FinalCode = "the secret code is: {0}";
+                        string[] DecodeOptions = { "1. Decipher spell (remove spaces)", "2. Count magical runes (vowels)", "3. Extract secret code (numbers)"};
+                        string vowels = "aeiouáéíóúAEIOUÁÉÍÓÚ";
+                        string[] numbers = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+
+                        string scrollOne = "The 🐉 sleeps in the mountain of fire 🔥";
+                        string scrollTwo = "Ancient magic flows through the crystal caves";
+                        string scrollThree = "Spell: Ignis 5 🔥, Aqua 6 💧, Terra 3 🌍, Ventus 8 🏆";
+                        int choosenOption = 0;
+                        int realOption = 0;
+                        bool validatedOption=false;
+                        int manyVowels = 0;
+
+                       
+                        Console.WriteLine(ScrollWelcome);
+                        Console.WriteLine(DecodeScroll+"\n");
+                        Console.WriteLine(scrollOne);
+                        Console.WriteLine(scrollTwo);
+                        Console.WriteLine(scrollThree+"\n");
+                        Console.WriteLine(DecodeOperation);
+                        //bucle per mostrar les opcións de decodificació
+                        for (int i = 0; i< DecodeOptions.Length; i++)
+                        {
+                            Console.WriteLine( DecodeOptions[i]);
+                        }
+                        //validació de la opció triada
+                        while (!validatedOption)
+                        {
+                            try
+                            {
+                                choosenOption = Convert.ToInt32(Console.ReadLine());
+
+                                if (choosenOption < 1 || choosenOption > 3)
+                                {
+                                    Console.WriteLine(DecodeRangeError);
+                                }
+                                else
+                                {
+                                    validatedOption = true;
+                                }
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Error: you must enter a number");
+                            }
+                            realOption = choosenOption - 1;
+                        }
+                        //decodificació del pergami
+                        switch (choosenOption)
+                        {
+                            case 1:
+                                string decodedScrollOne = scrollOne.Replace(" ", "");
+                                Console.WriteLine(decodedScrollOne);
+                                decodedOne = true;
+                                if (decodedOne == true && decodedTwo == true && decodedThree == true)
+                                {
+                                    Console.WriteLine(CompletedDecode);
+                                }
+                                break;
+                            case 2:
+                                for (int i = 0;i< scrollTwo.Length; i++)
+                                {
+                                    char position = scrollTwo[i];
+                                    if (vowels.Contains(position))
+                                    {
+                                        manyVowels++;
+                                    }
+                                }
+                                Console.WriteLine(FinalVowels,manyVowels);
+                                decodedTwo = true;
+                                if (decodedOne == true && decodedTwo == true && decodedThree == true)
+                                {
+                                    Console.WriteLine(CompletedDecode);
+                                }
+                                break;
+                            case 3:
+                                string secretCode = "";
+                                for (int i = 0; i < scrollThree.Length; i++)
+                                {
+                                    char positionTwo = scrollThree[i];
+
+                                    if (positionTwo >= '0' && positionTwo <= '9')   // comprovem si és número
+                                    {
+                                        secretCode = secretCode + positionTwo;
+                                    }
+                                }
+                                Console.WriteLine(FinalCode,secretCode);
+                                decodedThree = true; 
+                                if (decodedOne == true && decodedTwo == true && decodedThree == true)
+                                {
+                                    Console.WriteLine(CompletedDecode);
+                                }
+                                break;
+                        }                     
+                            break;
+                    //Codi al triar sortir del programa
                     case 0:
                         Console.WriteLine(MSG_ThxPlay);
                         break;
                 }
             }
-        } while (op != 0);
+        } while (op != 0); 
 
     }
 
